@@ -64,7 +64,7 @@ function Contact() {
 
     try {
       // API endpoint - uses proxy in development, env variable in production
-      const API_URL = import.meta.env.VITE_API_URL || "/api/contact";
+      const API_URL = import.meta.env.VITE_API_BASE_URL + "/api/contact";
 
       const response = await fetch(API_URL, {
         method: "POST",
