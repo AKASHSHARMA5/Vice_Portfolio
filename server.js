@@ -13,8 +13,7 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://your-frontend.vercel.app"
+      "https://vice-portfolio-nine.vercel.app"
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"]
