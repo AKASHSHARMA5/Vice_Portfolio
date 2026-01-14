@@ -14,6 +14,7 @@ import { playButtonSound } from "./utils/sound";
 function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,6 +50,18 @@ function App() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu when window is resized to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [mobileMenuOpen]);
 
   // Global button click handler for sound effect
   useEffect(() => {
@@ -115,6 +128,8 @@ function App() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+    // Close mobile menu when a link is clicked
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -135,7 +150,27 @@ function App() {
             <span className="logo-text">VICE</span>
             <span className="logo-subtitle">PORTFOLIO</span>
           </div>
-          <ul className="nav-menu">
+          <button
+            className="hamburger"
+            onClick={() => {
+              playButtonSound();
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
+            aria-label="Toggle menu"
+          >
+            <span className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}></span>
+            <span className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}></span>
+            <span className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}></span>
+          </button>
+          {mobileMenuOpen && (
+            <div
+              className="mobile-menu-overlay"
+              onClick={() => {
+                setMobileMenuOpen(false);
+              }}
+            ></div>
+          )}
+          <ul className={`nav-menu ${mobileMenuOpen ? "mobile-open" : ""}`}>
             <li>
               <a
                 href="#home"
